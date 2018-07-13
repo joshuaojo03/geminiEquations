@@ -1,11 +1,10 @@
-public class FridgesAndFreezers{
+public class ACRetrofit{
 
-    private static double idealRunHoursInput = 10;
-    private static double preEnergyUseInput = 10;
-    private static double postEnergyUseInput = 10;
-    private static double preTimeUseInput = 10;
-    private static double postTimeUseInput = 5;
-    private static double hourlyEnergyUseInput = 10;
+    private static double preHoursOnPerYearInput = 10;
+    private static double postHoursOnPerYearInput = 5;
+    private static double preSEERInput = 10;
+    private static double postSEERInput = 10;
+    private static double nominalCapacityInput = 10;
     private static double energySavings;
 
 
@@ -27,11 +26,11 @@ public class FridgesAndFreezers{
      }
 
      public static double energyPowerChangeCalc() {
-         return (idealRunHoursInput * (preEnergyUseInput - postEnergyUseInput));
+         return ((nominalCapacityInput / preSEERInput*preHoursOnPerYearInput) - (nominalCapacityInput / preSEERInput*preHoursOnPerYearInput));
      }
 
      public static double energyTimeChangeCalc() {
-         return ((preTimeUseInput-postTimeUseInput) * hourlyEnergyUseInput);
+       return ((nominalCapacityInput / preSEERInput)*(preHoursOnPerYearInput-postHoursOnPerYearInput));
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {

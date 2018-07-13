@@ -1,4 +1,4 @@
-public class FridgesAndFreezers{
+public class HotFoodCabinets{
 
     private static double idealRunHoursInput = 10;
     private static double preEnergyUseInput = 10;

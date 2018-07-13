@@ -1,11 +1,12 @@
-public class FridgesAndFreezers{
+public class MotorRetrofit{
 
-    private static double idealRunHoursInput = 10;
-    private static double preEnergyUseInput = 10;
-    private static double postEnergyUseInput = 10;
-    private static double preTimeUseInput = 10;
-    private static double postTimeUseInput = 5;
-    private static double hourlyEnergyUseInput = 10;
+    private static double preAnnualOperatingTimeInput = 10;
+    private static double postAnnualOperatingTimeInput = 5;
+    private static double preMotorEfficiencyInput = 10;
+    private static double postMotorEfficiencyInput = 10;
+    private static double motorPowerInput = 10;
+    private static double averageMotorLoadInput = 10;
+    private static double ratedMotorLoadInput = 10;
     private static double energySavings;
 
 
@@ -27,11 +28,13 @@ public class FridgesAndFreezers{
      }
 
      public static double energyPowerChangeCalc() {
-         return (idealRunHoursInput * (preEnergyUseInput - postEnergyUseInput));
+         return (motorPowerInput*(averageMotorLoadInput/ratedMotorLoadInput) * .746 *preAnnualOperatingTimeInput
+         * ((100/preMotorEfficiencyInput) -(100/postMotorEfficiencyInput)));
      }
 
      public static double energyTimeChangeCalc() {
-         return ((preTimeUseInput-postTimeUseInput) * hourlyEnergyUseInput);
+       return (motorPowerInput*(averageMotorLoadInput/ratedMotorLoadInput) * .746 * (preAnnualOperatingTimeInput-postAnnualOperatingTimeInput)
+       * (100/preMotorEfficiencyInput));
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {

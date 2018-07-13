@@ -1,11 +1,15 @@
-public class FridgesAndFreezers{
+public class RefrigerationFanRetrofit{
 
-    private static double idealRunHoursInput = 10;
-    private static double preEnergyUseInput = 10;
-    private static double postEnergyUseInput = 10;
-    private static double preTimeUseInput = 10;
-    private static double postTimeUseInput = 5;
-    private static double hourlyEnergyUseInput = 10;
+    private static double preAnnualOperatingTimeInput = 10;
+    private static double postAnnualOperatingTimeInput = 5;
+    private static double preWattsInput = 10;
+    private static double postWattsInput = 10;
+    private static double fansPerEquipmentInput = 10;
+    private static double numberOfEquipmentInput = 10;
+    private static double preFanRuntimeInput = 10;
+    private static double postFanRuntimeInput = 10;
+    private static double eerInput = 10;
+    private static double fanRuntimeInput = 10;
     private static double energySavings;
 
 
@@ -27,11 +31,13 @@ public class FridgesAndFreezers{
      }
 
      public static double energyPowerChangeCalc() {
-         return (idealRunHoursInput * (preEnergyUseInput - postEnergyUseInput));
+         return ((preWattsInput - postWattsInput) * fansPerEquipmentInput * (numberOfEquipmentInput/1000) * preFanRuntimeInput
+       * (1 + (1/(eerInput/3.412))));
      }
 
      public static double energyTimeChangeCalc() {
-         return ((preTimeUseInput-postTimeUseInput) * hourlyEnergyUseInput);
+       return (preWattsInput * fansPerEquipmentInput * (numberOfEquipmentInput/1000) * (preFanRuntimeInput - postFanRuntimeInput)
+     * (1 + (1/(eerInput/3.412))));
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {

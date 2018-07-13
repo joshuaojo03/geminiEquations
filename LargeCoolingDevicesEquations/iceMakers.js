@@ -1,11 +1,12 @@
-public class FridgesAndFreezers{
+public class IceMakers{
 
     private static double idealRunHoursInput = 10;
     private static double preEnergyUseInput = 10;
     private static double postEnergyUseInput = 10;
     private static double preTimeUseInput = 10;
-    private static double postTimeUseInput = 5;
+    private static double postTimeUseInput = 10;
     private static double hourlyEnergyUseInput = 10;
+    private static double iceHarvestRateInput = 10;
     private static double energySavings;
 
 
@@ -27,11 +28,11 @@ public class FridgesAndFreezers{
      }
 
      public static double energyPowerChangeCalc() {
-         return (idealRunHoursInput * (preEnergyUseInput - postEnergyUseInput));
+         return (idealRunHoursInput * (preEnergyUseInput - postEnergyUseInput) * iceHarvestRateInput);
      }
 
      public static double energyTimeChangeCalc() {
-         return ((preTimeUseInput-postTimeUseInput) * hourlyEnergyUseInput);
+         return ((preTimeUseInput-postTimeUseInput) * hourlyEnergyUseInput * iceHarvestRateInput);
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {

@@ -1,79 +1,70 @@
-public class OvenEnergyandCosts{
+public class Ovens{
 
-    private static double hoursOnPeakPricingInput = 10;
-    private static double hoursOnPartPeakPricingInput = 10;
-    private static double hoursOnOffPeakPricingInput = 10;
-    private static double peakPriceInput = 10;
-    private static double partPeakPriceInput = 10;
-    private static double offPeakPriceInput = 10;
-    private static double fanEnergyRateInput = 10;
-    private static double idleEnergyRateInput = 10;
-    private static double preheatEnergyInput = 10;
-    private static double daysInOperationInput = 10;
-    private static double idealRunHoursInput = 10;
-    private static double gasEnergyInput = 10;
-    private static double summerRateInput = 10;
-    private static double winterRateInput = 10;
+    private static double preIdealRunHoursInput = 10;
+    private static double postIdealRunHoursInput = 10;
+    private static double preIdleEnergyRateInput = 10;
+    private static double postIdleEnergyRateInput = 10;
+    private static double preGasEnergyUseInput = 10;
+    private static double postGasEnergyUseInput = 10;
+    private static double hourlyEnergyUseInput = 10;
+    private static double energySavings;
+    private static double prePreheatEnergyInput = 10;
+    private static double postPreheatEnergyInput = 10;
+    private static double preFanEnergyRateInput = 10;
+    private static double postFanEnergyRateInput = 10;
+    private static double daysInOperationInput = 365;
+    private static boolean gasAppliance = true;
+    private static double energyPowerChange;
+    private static double energyTimeChange;
 
-     public static void main(String []args){
-        System.out.println("Hello World");
-        double electricOvenSummer = electricOvenCostsSummer();
-        double electricOvenWinter = electricOvenCostsWinter();
-        double totalElectricOvenElectricityCosts = electricOvenCostsTotal(electricOvenSummer, electricOvenWinter);
-        double electricOvenEnergy = electricOvenEnergyCalc();
-        double gasOvenSummer = gasOvenSummerElectricityCosts();
-        double gasOvenWinter = gasOvenWinterElectricityCosts();
-        double totalGasOvenElectricityCosts = gasOvenTotalElectricityCosts(gasOvenSummer, gasOvenWinter);
-        double gasOvenGasCosts = gasOvenGasCostCalc();
-        double gasOvenTotalCosts = gasOvenTotalCosts(totalGasOvenElectricityCosts, gasOvenGasCosts);
-        double gasOvenEnergy = gasOvenEnergyCalc();
-        System.out.println(electricOvenWinter);
-        System.out.println(totalElectricOvenElectricityCosts);
-        System.out.println(electricOvenEnergy);
-        System.out.println("gas costs" + gasOvenTotalCosts);
-        System.out.println("gas energy" + gasOvenEnergy);
 
+
+     public static void main(String []args) {
+       //check to see if it is a gas appliance
+       if (gasAppliance == true) {
+         energyPowerChange = energyPowerChangeGasCalc();
+         energyTimeChange = energyTimeChangeGasCalc();
+       } else {
+         energyPowerChange = energyPowerChangeElectricCalc();
+         energyTimeChange = energyTimeChangeElectricCalc();
+       }
+
+       if (energyPowerChange != 0 && energyTimeChange == 0) {
+         energySavings = energyPowerChange;
+       } else if (energyPowerChange == 0 && energyTimeChange != 0) {
+         energySavings = energyTimeChange;
+       } else if (energyPowerChange != 0 && energyTimeChange != 0) {
+         energySavings = energyCalcTotal(energyPowerChange, energyTimeChange);
+       } else if (energyPowerChange == 0 && energyTimeChange == 0) {
+         energySavings = 0;
+       }
+       //will likely be a return statement
+       System.out.println(energySavings);
+    }
+
+
+     public static double energyPowerChangeGasCalc() {
+         return ((((prePreheatEnergyInput - postPreheatEnergyInput)/4 * daysInOperationInput) +
+         (preIdealRunHoursInput * (preIdleEnergyRateInput - postIdleEnergyRateInput))/3.412) + (preIdealRunHoursInput * (preFanEnergyRateInput - postFanEnergyRateInput)));
      }
 
-     public static double electricOvenCostsSummer() {
-        return((hoursOnPeakPricingInput*(fanEnergyRateInput + idleEnergyRateInput) * peakPriceInput) + (hoursOnPartPeakPricingInput*(fanEnergyRateInput + idleEnergyRateInput) * partPeakPriceInput) + (hoursOnOffPeakPricingInput*(fanEnergyRateInput + idleEnergyRateInput) * offPeakPriceInput)
-        );
+     public static double energyPowerChangeElectricCalc() {
+         return (((prePreheatEnergyInput - postPreheatEnergyInput)/4 * daysInOperationInput) + (preIdealRunHoursInput *
+           ((preIdleEnergyRateInput - postIdleEnergyRateInput) + (preFanEnergyRateInput - postFanEnergyRateInput))));
      }
 
-      public static double electricOvenCostsWinter() {
-        return((hoursOnPartPeakPricingInput*(fanEnergyRateInput + idleEnergyRateInput) * partPeakPriceInput) + (hoursOnOffPeakPricingInput*(fanEnergyRateInput + idleEnergyRateInput) * offPeakPriceInput)
-        );
+      public static double energyTimeChangeGasCalc() {
+        return ((((prePreheatEnergyInput/4 * daysInOperationInput) +
+        ((preIdealRunHoursInput - postIdealRunHoursInput) * preIdleEnergyRateInput))/3.412) + ((preIdealRunHoursInput - postIdealRunHoursInput) * preFanEnergyRateInput));
      }
 
-      public static double electricOvenCostsTotal(double electricOvenSummer, double electricOvenWinter) {
-          return (electricOvenSummer + electricOvenWinter);
-     }
+      public static double energyTimeChangeElectricCalc() {
+        return ((prePreheatEnergyInput/4 * daysInOperationInput) + ((preIdealRunHoursInput - postIdealRunHoursInput) *
+          ((preIdleEnergyRateInput - postIdleEnergyRateInput) + (preFanEnergyRateInput - postFanEnergyRateInput))));
+      }
 
-     public static double electricOvenEnergyCalc() {
-         return (((preheatEnergyInput * daysInOperationInput)/4) + (idealRunHoursInput *(fanEnergyRateInput + idleEnergyRateInput)));
-     }
+      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
+          return (energyCalcPowerChange * energyCalcTimeChange);
+      }
 
-      public static double gasOvenSummerElectricityCosts() {
-          return((hoursOnPeakPricingInput*fanEnergyRateInput * peakPriceInput) + (hoursOnPartPeakPricingInput*fanEnergyRateInput * partPeakPriceInput) + (hoursOnOffPeakPricingInput*fanEnergyRateInput* offPeakPriceInput));
-     }
-
-      public static double gasOvenWinterElectricityCosts() {
-        return((hoursOnPartPeakPricingInput*fanEnergyRateInput * partPeakPriceInput) + (hoursOnOffPeakPricingInput*fanEnergyRateInput* offPeakPriceInput));
-     }
-
-      public static double gasOvenTotalElectricityCosts(double gasOvenSummer, double gasOvenWinter) {
-         return (gasOvenSummer + gasOvenWinter);
-     }
-
-      public static double gasOvenGasCostCalc() {
-        return ((gasEnergyInput/99976.1) * ((winterRateInput + summerRateInput)*0.5));
-     }
-
-      public static double gasOvenTotalCosts(double totalGasOvenElectricityCosts, double gasOvenGasCosts) {
-        return (totalGasOvenElectricityCosts + gasOvenGasCosts);
-     }
-
-      public static double gasOvenEnergyCalc() {
-        return (((((preheatEnergyInput * daysInOperationInput)/4) + (idealRunHoursInput * idleEnergyRateInput))/3412.142) + (idealRunHoursInput + fanEnergyRateInput));
-     }
 }
