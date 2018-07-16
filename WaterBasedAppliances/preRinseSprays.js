@@ -1,7 +1,9 @@
 public class PreRinseSprays{
 
-    private static double preDaysInOperationInput = 10;
-    private static double postDaysInOperationInput = 10;
+    private static double preTotalHoursUsedInput = 10;
+    private static double postTotalHoursUsedInput = 10;
+    private static double preDaysInOperationCalc = preTotalHoursUsedInput/24;
+    private static double postDaysInOperationCalc = postTotalHoursUsedInput/24;
     private static double preFlowRateInput = 10;
     private static double postFlowRateInput = 5;
     private static double preEfficiencyInput = 10;
@@ -36,20 +38,22 @@ public class PreRinseSprays{
        System.out.println(energySavings);
     }
 
+    //these equations are used to calculate the savings in energy
+
        public static double energyPowerChangeGasCalc() {
-           return (((preFlowRateInput - postFlowRateInput) * 60 * preDaysInOperationInput) * 8.34 * (110/99976.1) * postEfficiencyInput);
+           return (((preFlowRateInput - postFlowRateInput) * 60 * preDaysInOperationCalc) * 8.34 * (110/99976.1) * postEfficiencyInput);
        }
 
        public static double energyPowerChangeElectricCalc() {
-         return (((preFlowRateInput - postFlowRateInput) * 60 * preDaysInOperationInput) * 8.34 * (110/3412.14) * postEfficiencyInput);
+         return (((preFlowRateInput - postFlowRateInput) * 60 * preDaysInOperationCalc) * 8.34 * (110/3412.14) * postEfficiencyInput);
        }
 
        public static double energyTimeChangeGasCalc() {
-         return (preFlowRateInput * 60 * (preDaysInOperationInput - postDaysInOperationInput) * 8.34 * (110/99976.1) * postEfficiencyInput);
+         return (preFlowRateInput * 60 * (preDaysInOperationCalc - postDaysInOperationCalc) * 8.34 * (110/99976.1) * postEfficiencyInput);
       }
 
       public static double energyTimeChangeElectricCalc() {
-        return (preFlowRateInput * 60 * (preDaysInOperationInput - postDaysInOperationInput) * 8.34 * (110/3412.14) * postEfficiencyInput);
+        return (preFlowRateInput * 60 * (preDaysInOperationCalc - postDaysInOperationCalc) * 8.34 * (110/3412.14) * postEfficiencyInput);
      }
 
       public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
