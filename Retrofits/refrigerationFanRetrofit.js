@@ -54,7 +54,7 @@ public class RefrigerationFanRetrofit{
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-         return (energyCalcPowerChange * energyCalcTimeChange);
-     }
+       return ((preWattsInput - postWattsInput)/1000 * fansPerEquipmentInput * numberOfEquipmentInput * (preFanRuntimeInput - postFanRuntimeInput)
+     * (1 + (1/(eerInput/3.412))));     }
 
 }

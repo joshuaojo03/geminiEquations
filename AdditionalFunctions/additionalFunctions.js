@@ -60,25 +60,39 @@ object AdditionalFunctions {
     val powerChangeCheck = true
     val timeChangeCheck = true
     val bothPowerAndTimeCheck = true
-
+    val multiplePowerCheck == true
+    val multipleTimeCheck == true
+    val bothMultiplePowerandTimeCheck == true
     //You have to get the rate schedule and determine whether or not it is a TOU rate schedule or a non-TOU rate schedule
     //The powerValue is returned from every device; for the power change and bothPowerAndTime change, the power value represents
     // the change in power. For the time change, the powerValue represents the prePower value
     if (getRateSchedule == "TOU") {
-        if (powerChangeCheck == true) {
-            val electricityCostsSummer = electricityCostsSummerCalcPowerChange(powerValue)
-            val electricityCostsWinter = electricityCostsWinterCalcPowerChange(powerValue)
-            energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
-          } else if (timeChangeCheck == true) {
-            val electricityCostsSummer = electricityCostsSummerCalcTimeChange(powerValue)
-            val electricityCostsWinter = electricityCostsWinterCalcTimeChange(powerValue)
-            energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
-          } else if (bothPowerAndTimeCheck == true) {
-            //the change in power will be returned from the device and will represent the "power value" in the equation
-            val electricityCostsSummer = electricityCostsSummerCalcTimeChange(powerValue)
-            val electricityCostsWinter = electricityCostsWinterCalcTimeChange(powerValue)
-            energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
-          }
+        if (multiplePowerCheck == true) {
+          val electricityCostsSummer = electricityCostsSummerCalcMultiplePowerChange(powerValues)
+          val electricityCostsWinter = electricityCostsWinterCalcMultiplePowerChange(powerValues)
+          energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        } else if (multipleTimeCheck == true) {
+          val electricityCostsSummer = electricityCostsSummerCalcMultipleTimeChange(powerValues)
+          val electricityCostsWinter = electricityCostsWinterCalcMultipleTimeChange(powerValues)
+          energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        } else if (bothMultiplePowerandTimeCheck == true) {
+          val electricityCostsSummer = electricityCostsSummerCalcMultiplePowerChange(powerValues)
+          val electricityCostsWinter = electricityCostsWinterCalcMultiplePowerChange(powerValues)
+          energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        } else if (powerChangeCheck == true) {
+          val electricityCostsSummer = electricityCostsSummerCalcPowerChange(powerValue)
+          val electricityCostsWinter = electricityCostsWinterCalcPowerChange(powerValue)
+          energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        } else if (timeChangeCheck == true) {
+          val electricityCostsSummer = electricityCostsSummerCalcTimeChange(powerValue)
+          val electricityCostsWinter = electricityCostsWinterCalcTimeChange(powerValue)
+          energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        } else if (bothPowerAndTimeCheck == true) {
+          //the change in power will be returned from the device and will represent the "power value" in the equation
+          val electricityCostsSummer = electricityCostsSummerCalcTimeChange(powerValue)
+          val electricityCostsWinter = electricityCostsWinterCalcTimeChange(powerValue)
+          energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        }
       } else if (getRateSchedule == "NonTOU") {
         energyCostSavings = findNonTOUCostSavings(energyUse)
       } else if (checkForGas == true) {
@@ -137,6 +151,7 @@ object AdditionalFunctions {
     return (((preHoursOnPeakPricingInput - postHoursOnPeakPricingInput) * powerValue * peakPriceInput) + ((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput)
     * powerValue * partPeakPriceInput) + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValue * offPeakPriceInput))
     }
+
     private fun electricityCostsWinterCalcTimeChange(powerValue:Double):Double {
       return (((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput) * powerValue * partPeakPriceInput)
       + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValue * offPeakPriceInput))
@@ -149,37 +164,43 @@ object AdditionalFunctions {
     return (((energyUse / 2) * summerRateInput) + ((energyUse / 2) * winterRateInput))
   }
 
-  public static double gasCostSavings(energyUse:Double):Double {
-  return (((energyUse)/99976.1) * ((winterRateInput + summerRateInput)/2))
-}
-
-//this is the equation for appliances where there is a days in operation value, as opposed to just timed hourly values. (pre-rinse sprays, water heaters,dishwashers, etc).
-//There is no real way for us to know when at what specific times a business is using their pre-rinses, dishwashers, water heaters, etc, but we do know how many hours they
-//are using them each day. So from this value we can get a total "days in operation" that we can use in the formula.
-//The blendedRate is a value from the database.
-public static double blendedRateCalc(energyUse:Double):Double {
-  return (energyUse * blendedRate)
-}
-
-//This is the cost equation for televisions and other future appliances that function similarly
-//There will be an if-statement checking for these values
-
-private fun electricityCostsSummerCalcPowerChange(powerValue:Double):Double {
- return ((preHoursOnPeakPricingInput * powerConsumptionMode * peakPriceInput) + (preHoursOnPartPeakPricingInput * energyUse * partPeakPriceInput)
-  + (preHoursOnOffPeakPricingInput * energyUse * offPeakPriceInput))
- }
- private fun electricityCostsWinterCalcPowerChange(powerValue:Double):Double {
-   return ((preHoursOnPartPeakPricingInput * energyUse * partPeakPriceInput) + (preHoursOnOffPeakPricingInput * energyUse * offPeakPriceInput))
- }
-
- private fun electricityCostsSummerCalcTimeChange(powerValue:Double):Double {
-  return (((preHoursOnPeakPricingInput - postHoursOnPeakPricingInput) * energyUse * peakPriceInput) + ((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput)
-  * energyUse * partPeakPriceInput) + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * energyUse * offPeakPriceInput))
+    public static double gasCostSavings(energyUse:Double):Double {
+    return (((energyUse)/99976.1) * ((winterRateInput + summerRateInput)/2))
   }
-  private fun electricityCostsWinterCalcTimeChange(powerValue:Double):Double {
-    return (((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput) * energyUse * partPeakPriceInput)
-    + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * energyUse * offPeakPriceInput))
-  // #costSavingsEnergy for month and year
-  // #costSavingsDemand for year(6 months)
 
+  //this is the equation for appliances where there is a days in operation value, as opposed to just timed hourly values. (pre-rinse sprays, water heaters,dishwashers, etc).
+  //There is no real way for us to know when at what specific times a business is using their pre-rinses, dishwashers, water heaters, etc, but we do know how many hours they
+  //are using them each day. So from this value we can get a total "days in operation" that we can use in the formula.
+  //The blendedRate is a value from the database.
+  public static double blendedRateCalc(energyUse:Double):Double {
+    return (energyUse * blendedRate)
+  }
+
+  //This is the cost equation for televisions and other future appliances that function similarly
+  //There will be an if-statement checking for these values
+  //make for loops, fix bugs, and comment
+  private fun electricityCostsSummerCalcMultiplePowerChange(powerValues:Array):Double {
+   return (((preHoursOnPeakPricingInput * powerValues[0] * peakPriceInput) + (preHoursOnPartPeakPricingInput * powerValues[0] * partPeakPriceInput)
+    + (preHoursOnOffPeakPricingInput * powerValues[0] * offPeakPriceInput)) +
+    ((preHoursOnPeakPricingInput * powerValues[1] * peakPriceInput) + (preHoursOnPartPeakPricingInput * powerValues[1] * partPeakPriceInput)
+     + (preHoursOnOffPeakPricingInput * powerValues[1] * offPeakPriceInput)))
+   }
+   private fun electricityCostsWinterCalcMultiplePowerChange(powerValues:Array):Double {
+     return (((preHoursOnPartPeakPricingInput * powerValues[0] * partPeakPriceInput) + (preHoursOnOffPeakPricingInput * powerValues[0] * offPeakPriceInput)) +
+     ((preHoursOnPartPeakPricingInput * powerValues[1] * partPeakPriceInput) + (preHoursOnOffPeakPricingInput * powerValues[1] * offPeakPriceInput)))
+   }
+
+ private fun electricityCostsSummerCalcMultipleTimeChange(powerValues:Array):Double {
+  return ((((preHoursOnPeakPricingInput - postHoursOnPeakPricingInput) * powerValues[0] * peakPriceInput) + ((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput)
+  * powerValues[0] * partPeakPriceInput) + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValues[0] * offPeakPriceInput)) +
+  (((preHoursOnPeakPricingInput - postHoursOnPeakPricingInput) * powerValues[1] * peakPriceInput) + ((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput)
+  * powerValues[1] * partPeakPriceInput) + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValues[1] * offPeakPriceInput)))
+  }
+
+  private fun electricityCostsWinterCalcMultipleTimeChange(powerValues:Array):Double {
+    return (((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput) * powerValues[0] * partPeakPriceInput)
+    + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValues[0] * offPeakPriceInput)) +
+    (((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput) * powerValues[1] * partPeakPriceInput)
+    + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValues[1] * offPeakPriceInput))
+  }
 }

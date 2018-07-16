@@ -10,7 +10,8 @@ public class fryersSteamCookersGriddles{
     private static double energySavings;
     private static double prePreheatEnergyInput = 10;
     private static double postPreheatEnergyInput = 10;
-    private static double daysInOperationCalculate = 365;
+    private static double preDaysInOperationCalculate = 365;
+    private static double postDaysInOperationCalculate = 365;
     private static double winterRateInput = 10;
     private static double summerRateInput = 10;
     private static boolean timeChange = true;
@@ -37,25 +38,31 @@ public class fryersSteamCookersGriddles{
   //used in the various electricityCosts equations; in this equation there should be a check determining if the powerValue returned is dependent upon
   //the time or not. If it is dependent upon the time, then the powerValue returned will be the preValue. If it is not dependent upon the time, then
   //the power value returned will be the difference between the pre and post values
-       public static double powerValueCalc() {
+       public static double[] powerValueCalc() {
          if (timeChange == false) {
-           return ((prePreheatEnergyInput - postPreheatEnergyInput)/8760 + (preIdleEnergyRateInput - postIdleEnergyRateInput));
+           double[] powerValues = new double[2];
+           powerValues[0] = (prePreheatEnergyInput - postPreheatEnergyInput);
+           powerValues[1] = (preIdleEnergyRateInput - postIdleEnergyRateInput);
+           return (powerValues);
        } else {
-         return ((prePreheatEnergyInput)/8760) + (preIdleEnergyRateInput);
-       }
+         double[] powerValues = new double[2];
+         powerValues[0] = (prePreheatEnergyInput);
+         powerValues[1] = (preIdleEnergyRateInput);
+         return (powerValues);
+         }
      }
 
   //these equations are used to calculate the savings in energy
      public static double energyPowerChangeCalc() {
-         return (((prePreheatEnergyInput - postPreheatEnergyInput) * daysInOperationCalculate) + (preIdealRunHoursInput * (preIdleEnergyRateInput - postIdleEnergyRateInput)));
+         return (((prePreheatEnergyInput - postPreheatEnergyInput) * preDaysInOperationCalculate) + (preIdealRunHoursInput * (preIdleEnergyRateInput - postIdleEnergyRateInput)));
      }
 
       public static double energyTimeChangeCalc() {
-          return ((prePreheatEnergyInput) * daysInOperationCalculate + ((preIdealRunHoursInput - postIdealRunHoursInput) * preIdleEnergyRateInput));
+          return ((prePreheatEnergyInput) * (preDaysInOperationCalculate - postDaysInOperationCalculate) + ((preIdealRunHoursInput - postIdealRunHoursInput) * preIdleEnergyRateInput));
       }
 
       public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-          return (energyCalcPowerChange * energyCalcTimeChange);
+        return (((prePreheatEnergyInput - postPreheatEnergyInput) * (preDaysInOperationCalculate - postDaysInOperationCalculate))
+        + ((preIdealRunHoursInput - postIdealRunHoursInput) * (preIdleEnergyRateInput - postIdleEnergyRateInput)));
       }
-
 }

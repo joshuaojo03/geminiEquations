@@ -27,6 +27,26 @@ public class Televisions{
         System.out.println(energySavings);
      }
 
+   //this is the function that will be called by the platform to determine the energy cost savings. In the main class the value is "powerValue" that is
+   //used in the various electricityCosts equations; in this equation there should be a check determining if the powerValue returned is dependent upon
+   //the time or not. If it is dependent upon the time, then the powerValue returned will be the preValue. If it is not dependent upon the time, then
+   //the power value returned will be the difference between the pre and post values
+        public static double[] powerValueCalc() {
+          if (timeChange == false) {
+            double[] powerValues = new double[2];
+            powerValues[0] = (prePowerConsumptionStandbyModeInput - postPowerConsumptionModeOnInput);
+            powerValues[1] = (prePowerConsumptionModeOnInput - postPowerConsumptionModeOnInput);
+            return (powerValues);
+        } else {
+          double[] powerValues = new double[2];
+          powerValues[0] = (prePowerConsumptionStandbyModeInput);
+          powerValues[1] = (prePowerConsumptionModeOnInput);
+          return (powerValues);
+          }
+      }
+
+   //these equations are used to calculate the savings in energy
+
 
      public static double energyPowerChangeCalc() {
          return ((preOperatingHoursInput * (prePowerConsumptionModeOnInput - postPowerConsumptionModeOnInput)) +
@@ -39,7 +59,7 @@ public class Televisions{
      }
 
       public static double energyCalcTotal(double energyPowerChange, double energyTimeChange) {
-          return (energyPowerChange * energyTimeChange);
+        return (((preOperatingHoursInput-postOperatingHoursInput) * (prePowerConsumptionModeOnInput - postPowerConsumptionModeOnInput)) +
+        ((preOffHoursInput-postOffHoursInput) * (prePowerConsumptionStandbyModeInput - postPowerConsumptionModeOnInput)));
       }
-
 }

@@ -32,7 +32,11 @@ public class WaterHeatersDishwashers{
        } else if (energyPowerChange == 0 && energyTimeChange != 0) {
          energySavings = energyTimeChange;
        } else if (energyPowerChange != 0 && energyTimeChange != 0) {
-         energySavings = energyCalcTotal(energyPowerChange, energyTimeChange);
+           if (gasAppliance == true) {
+           energySavings = energyGasCalcTotal(energyPowerChange, energyTimeChange);
+         } else {
+           energySavings = energyElectricCalcTotal(energyPowerChange, energyTimeChange);
+         }
        } else if (energyPowerChange == 0 && energyTimeChange == 0) {
          energySavings = 0;
        }
@@ -58,8 +62,13 @@ public class WaterHeatersDishwashers{
          ((preWaterConsumptionInput * 20 * (preDaysInOperationInput - postDaysInOperationInput)) * 8.34 * (110/3412.14) * preEfficiencyInput));
       }
 
-      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-          return (energyCalcPowerChange * energyCalcTimeChange);
+      public static double energyGasCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
+        return (((preWaterConsumptionInput - postWaterConsumptionInput) * 20 * (preDaysInOperationInput - postDaysInOperationInput)) * 8.34 * (110/99976.1) * postEfficiencyInput);
       }
+
+      public static double energyElectricCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
+        return (((preIdleEnergyRateInput - postIdleEnergyRateInput) * (preRunHoursInput - postRunHoursInput)) +
+        (((preWaterConsumptionInput - postWaterConsumptionInput) * 20 * (preDaysInOperationInput - postDaysInOperationInput)) * 8.34 * (110/3412.14) * postEfficiencyInput));
+     }
 
 }

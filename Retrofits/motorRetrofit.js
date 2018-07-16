@@ -51,7 +51,7 @@ public class MotorRetrofit{
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-         return (energyCalcPowerChange * energyCalcTimeChange);
-     }
+       return (motorPowerInput * (averageMotorLoadInput/ratedMotorLoadInput) * .746 * (preAnnualOperatingTimeInput-postAnnualOperatingTimeInput)
+       * ((100/preMotorEfficiencyInput) -(100/postMotorEfficiencyInput)));     }
 
 }

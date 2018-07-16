@@ -48,7 +48,7 @@ public class Boilers{
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-         return (energyCalcPowerChange * energyCalcTimeChange);
+       return (((preRuntimeInput-postRuntimeInput) * 52) * (preInputPowerInput - postInputPowerInput));
      }
 
 }

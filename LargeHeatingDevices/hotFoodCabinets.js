@@ -49,7 +49,6 @@ public class HotFoodCabinets{
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-         return (energyCalcPowerChange * energyCalcTimeChange);
-     }
+         return  ((preIdealRunHoursInput- postIdealRunHoursInput) * (prePowerUseCalc - postPowerUseCalc));
 
 }

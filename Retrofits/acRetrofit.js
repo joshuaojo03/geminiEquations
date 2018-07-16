@@ -47,7 +47,7 @@ public class ACRetrofit{
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-         return (energyCalcPowerChange * energyCalcTimeChange);
+       return ((nominalCapacityInput / preSEERInput * preHoursOnPerYearInput) - (nominalCapacityInput / postSEERInput * postHoursOnPerYearInput));
      }
 
 }

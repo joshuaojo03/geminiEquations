@@ -51,7 +51,7 @@ public class IceMakers{
      }
 
      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-         return (energyCalcPowerChange * energyCalcTimeChange);
+       return ((preIdealRunHoursInput - postIdealRunHoursInput) * (preEnergyUseRateInput - postEnergyUseRateInput)/24 * postIceHarvestRateInput);
      }
 
 }

@@ -30,7 +30,11 @@ public class PreRinseSprays{
        } else if (energyPowerChange == 0 && energyTimeChange != 0) {
          energySavings = energyTimeChange;
        } else if (energyPowerChange != 0 && energyTimeChange != 0) {
-         energySavings = energyCalcTotal(energyPowerChange, energyTimeChange);
+           if (gasAppliance == true) {
+           energySavings = energyGasCalcTotal(energyPowerChange, energyTimeChange);
+         } else {
+           energySavings = energyElectricCalcTotal(energyPowerChange, energyTimeChange);
+         }
        } else if (energyPowerChange == 0 && energyTimeChange == 0) {
          energySavings = 0;
        }
@@ -56,8 +60,11 @@ public class PreRinseSprays{
         return (preFlowRateInput * 60 * (preDaysInOperationCalc - postDaysInOperationCalc) * 8.34 * (110/3412.14) * postEfficiencyInput);
      }
 
-      public static double energyCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-          return (energyCalcPowerChange * energyCalcTimeChange);
+      public static double energyElectricCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
+        return (((preFlowRateInput - postFlowRateInput) * 60 * (preDaysInOperationCalc - postDaysInOperationCalc)) * 8.34 * (110/3412.14) * postEfficiencyInput);
       }
 
+      public static double energyGasCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
+        return (((preFlowRateInput - postFlowRateInput) * 60 * (preDaysInOperationCalc - postDaysInOperationCalc)) * 8.34 * (110/99976.1) * postEfficiencyInput);
+      }
 }
