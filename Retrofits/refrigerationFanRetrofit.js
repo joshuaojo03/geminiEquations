@@ -3,7 +3,7 @@ public class RefrigerationFanRetrofit{
     private static double preAnnualOperatingTimeInput = 10;
     private static double postAnnualOperatingTimeInput = 5;
     private static double preWattsInput = 10;
-    private static double postWattsInput = 10;
+    private static double postWattsInput = 5;
     private static double fansPerEquipmentInput = 10;
     private static double numberOfEquipmentInput = 10;
     private static double preFanRuntimeInput = 10;

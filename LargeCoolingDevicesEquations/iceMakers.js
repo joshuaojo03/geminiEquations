@@ -1,9 +1,9 @@
 public class IceMakers{
 
     private static double preIdealRunHoursInput = 10;
-    private static double postIdealRunHoursInput = 10;
+    private static double postIdealRunHoursInput = 5;
     private static double preEnergyUseRateInput = 10;
-    private static double postEnergyUseRateInput = 10;
+    private static double postEnergyUseRateInput = 5;
     private static double preTimeUseInput = 10;
     private static double postTimeUseInput = 10;
     private static double hourlyEnergyUseInput = 10;

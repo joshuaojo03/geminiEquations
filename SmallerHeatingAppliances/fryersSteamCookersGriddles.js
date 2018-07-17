@@ -6,12 +6,13 @@ public class fryersSteamCookersGriddles{
     private static double postIdleEnergyRateInput = 10;
     private static double preGasEnergyUseInput = 10;
     private static double postGasEnergyUseInput = 10;
-    private static double hourlyEnergyUseInput = 10;
+    private static double preHourlyEnergyUseInput = 10;
+    private static double postHourlyEnergyUseInput = 10;
     private static double energySavings;
     private static double prePreheatEnergyInput = 10;
-    private static double postPreheatEnergyInput = 10;
-    private static double preDaysInOperationCalculate = 365;
-    private static double postDaysInOperationCalculate = 365;
+    private static double postPreheatEnergyInput = 5;
+    private static double preDaysInOperationCalculate = preHourlyEnergyUseInput / 24;
+    private static double postDaysInOperationCalculate = postHourlyEnergyUseInput / 24;
     private static double winterRateInput = 10;
     private static double summerRateInput = 10;
     private static boolean timeChange = true;

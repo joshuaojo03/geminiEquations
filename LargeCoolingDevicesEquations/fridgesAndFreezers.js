@@ -1,9 +1,9 @@
 public class FridgesAndFreezers{
 
     private static double preIdealRunHoursInput = 10;
-    private static double postIdealRunHoursInput = 10;
+    private static double postIdealRunHoursInput = 5;
     private static double preHourlyEnergyUseInput = 10;
-    private static double postHourlyEnergyUseInput = 10;
+    private static double postHourlyEnergyUseInput = 5;
     private static double preDailyEnergyUseCalc = preHourlyEnergyUseInput/24;
     private static double postDailyEnergyUseCalc = postHourlyEnergyUseInput/24;
     private static double energySavings;

@@ -1,12 +1,15 @@
 public class Ovens{
 
     private static double preIdealRunHoursInput = 10;
-    private static double postIdealRunHoursInput = 10;
+    private static double postIdealRunHoursInput = 5;
     private static double preIdleEnergyRateInput = 10;
-    private static double postIdleEnergyRateInput = 10;
+    private static double postIdleEnergyRateInput = 5;
     private static double preGasEnergyUseInput = 10;
     private static double postGasEnergyUseInput = 10;
-    private static double hourlyEnergyUseInput = 10;
+    private static double preHourlyEnergyUseInput = 10;
+    private static double postHourlyEnergyUseInput = 5;
+    private static double preDaysInOperationCalc = preHourlyEnergyUseInput / 24;
+    private static double postDaysInOperationCalc = postHourlyEnergyUseInput / 24;
     private static double energySavings;
     private static double prePreheatEnergyInput = 10;
     private static double postPreheatEnergyInput = 10;
@@ -15,6 +18,7 @@ public class Ovens{
     private static boolean gasAppliance = true;
     private static double energyPowerChange;
     private static double energyTimeChange;
+    private static boolean timeChange = true;
 
 
 
@@ -54,11 +58,13 @@ public class Ovens{
            double[] powerValues = new double[2];
            powerValues[0] = (prePreheatEnergyInput - postPreheatEnergyInput);
            powerValues[1] = (preIdleEnergyRateInput - postIdleEnergyRateInput);
+           powerValues[2] = (preFanEnergyRateInput - postFanEnergyRateInput);
            return (powerValues);
        } else {
-         double[] powerValues = new double[2];
+         double[] powerValues = new double[3];
          powerValues[0] = (prePreheatEnergyInput);
          powerValues[1] = (preIdleEnergyRateInput);
+         powerValues[2] = (preFanEnergyRateInput);
          return (powerValues);
          }
      }
@@ -66,32 +72,32 @@ public class Ovens{
     //these equations are used to calculate the savings in energy
 
      public static double energyPowerChangeGasCalc() {
-         return ((((prePreheatEnergyInput - postPreheatEnergyInput)/4 * daysInOperationInput) +
+         return ((((prePreheatEnergyInput - postPreheatEnergyInput)/4 * preDaysInOperationCalc) +
          (preIdealRunHoursInput * (preIdleEnergyRateInput - postIdleEnergyRateInput))/3.412) + (preIdealRunHoursInput * (preFanEnergyRateInput - postFanEnergyRateInput)));
      }
 
      public static double energyPowerChangeElectricCalc() {
-         return (((prePreheatEnergyInput - postPreheatEnergyInput)/4 * daysInOperationInput) + (preIdealRunHoursInput *
+         return (((prePreheatEnergyInput - postPreheatEnergyInput)/4 * preDaysInOperationCalc) + (preIdealRunHoursInput *
            ((preIdleEnergyRateInput - postIdleEnergyRateInput) + (preFanEnergyRateInput - postFanEnergyRateInput))));
      }
 
       public static double energyTimeChangeGasCalc() {
-        return ((((prePreheatEnergyInput/4 * daysInOperationInput) +
+        return ((((prePreheatEnergyInput/4 * (preDaysInOperationCalc - postDaysInOperationCalc)) +
         ((preIdealRunHoursInput - postIdealRunHoursInput) * preIdleEnergyRateInput))/3.412) + ((preIdealRunHoursInput - postIdealRunHoursInput) * preFanEnergyRateInput));
      }
 
       public static double energyTimeChangeElectricCalc() {
-        return ((prePreheatEnergyInput/4 * daysInOperationInput) + ((preIdealRunHoursInput - postIdealRunHoursInput) *
+        return ((prePreheatEnergyInput/4 * (preDaysInOperationCalc - postDaysInOperationCalc)) + ((preIdealRunHoursInput - postIdealRunHoursInput) *
           ((preIdleEnergyRateInput - postIdleEnergyRateInput) + (preFanEnergyRateInput - postFanEnergyRateInput))));
       }
 
       public static double energyElectricCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-        return (((prePreheatEnergyInput - postPreheatEnergyInput)/4 * daysInOperationInput) + ((preIdealRunHoursInput - postIdealRunHoursInput) *
+        return (((prePreheatEnergyInput - postPreheatEnergyInput)/4 * (preDaysInOperationCalc - postDaysInOperationCalc)) + ((preIdealRunHoursInput - postIdealRunHoursInput) *
           ((preIdleEnergyRateInput - postIdleEnergyRateInput) + (preFanEnergyRateInput - postFanEnergyRateInput))));
       }
 
       public static double energyGasCalcTotal(double energyCalcPowerChange, double energyCalcTimeChange) {
-        return ((((prePreheatEnergyInput - postPreheatEnergyInput)/4 * daysInOperationInput) + ((preIdealRunHoursInput - postIdealRunHoursInput) *
+        return ((((prePreheatEnergyInput - postPreheatEnergyInput)/4 * (preDaysInOperationCalc - postDaysInOperationCalc)) + ((preIdealRunHoursInput - postIdealRunHoursInput) *
          (preIdleEnergyRateInput - postIdleEnergyRateInput))/3.412) + ((preIdealRunHoursInput - postIdealRunHoursInput) * (preFanEnergyRateInput - postFanEnergyRateInput)));
     }
 }

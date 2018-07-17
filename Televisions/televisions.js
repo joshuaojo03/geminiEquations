@@ -5,10 +5,11 @@ public class Televisions{
     private static double prePowerConsumptionStandbyModeInput = 10;
     private static double postPowerConsumptionStandbyModeInput = 10;
     private static double preOperatingHoursInput = 10;
-    private static double postOperatingHoursInput = 10;
+    private static double postOperatingHoursInput = 5;
     private static double preOffHoursInput = 10;
     private static double postOffHoursInput = 10;
     private static double energySavings;
+    private static boolean timeChange = true;
 
 
      public static void main(String []args) {
