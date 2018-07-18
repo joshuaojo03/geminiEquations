@@ -1,13 +1,21 @@
 object CascadingEnegySavingsLights {
+
   //manual inputs
   private val lampsPerFixture = 1
   private val numFixtures = 1
+
+  //manual inputs?
   private val percentHoursReduced = 1.0
   private val lifeHours = 1
   private val cooling = 1.0
-  private val currentEnergyUse = 1.0
-  private val postEnergyUse = 0.5
-  private val SEER = 10
+
+//Energy: pre will be a manual input, post will be called from a database
+  private val currentEnergyUseInput = 1.0
+  private val postEnergyUseCall = 0.5
+
+  //SEER: This will be a manual input (for now)
+  private val SEERInput = 10
+
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
     val savings = 5
@@ -22,18 +30,23 @@ object CascadingEnegySavingsLights {
     val savingsCascade = maintenanceSavings + coolingSavings + energySavings
     println("savings post " + savingsCascade)
   }
+
+  //The remaining functions will be used as values within the additional functions class
   fun maintenanceSavingsCalculation():Double {
     val savings = (lampsPerFixture.toDouble() * numFixtures.toDouble() * 3.0 * percentHoursReduced * (8760 / lifeHours).toDouble())
     return savings
   }
+
   fun coolingSavingsCalculation():Double {
-    val savings = currentEnergyUse * cooling * SEER.toDouble()
+    val savings = currentEnergyUseInput * cooling * SEERInput.toDouble()
     return savings
   }
+
   fun energySavingsCalculation():Double {
-    val savings = currentEnergyUse - postEnergyUse
+    val savings = currentEnergyUseInput - postEnergyUseCall
     return savings
   }
+
   fun selectLamp(lampType:String) {
     if (lampType == "Halogen")
     {
