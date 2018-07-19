@@ -29,9 +29,10 @@ object AdditionalFunctions {
   private val otherEquipmentSavingsCalc = 9.0
   //This value is called from a database and is dependent on the specific device
   private val incentivesCall = 10.0
-  //This value is input manually
+  //This value is calculated from the hours input
   private val hoursOfOperationInput = 10.0
-  //This is a call from a database
+  //This is value is calculated from the variables called from the utility database
+  //It is the cost ($/kWh) taking into account the operation hours during peak/partpeak/nonpeak and their pricing 
   private val blendedRate = 10.0
   //This value determines what the type of rate schedule to use; Right now it is a string check, but a more sophisticated check could be required
   private val getRateSchedule = "TOU"
@@ -45,6 +46,7 @@ object AdditionalFunctions {
   private val powerChangeCheck = true
   private val timeChangeCheck = true
   private val bothPowerAndTimeCheck = true
+  //This is for equipment that have two measurements of energy e.g., preheat and idle
   private val multiplePowerCheck = true
   private val multipleTimeCheck = true
   private val bothMultiplePowerandTimeCheck = true
