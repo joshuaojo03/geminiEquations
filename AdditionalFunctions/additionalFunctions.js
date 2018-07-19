@@ -29,10 +29,9 @@ object AdditionalFunctions {
   private val otherEquipmentSavingsCalc = 9.0
   //This value is called from a database and is dependent on the specific device
   private val incentivesCall = 10.0
-  //This value is calculated from the hours input
+  //This value is input manually
   private val hoursOfOperationInput = 10.0
-  //This is value is calculated from the variables called from the utility database
-  //It is the cost ($/kWh) taking into account the operation hours during peak/partpeak/nonpeak and their pricing 
+  //This is a call from a database
   private val blendedRate = 10.0
   //This value determines what the type of rate schedule to use; Right now it is a string check, but a more sophisticated check could be required
   private val getRateSchedule = "TOU"
@@ -46,7 +45,6 @@ object AdditionalFunctions {
   private val powerChangeCheck = true
   private val timeChangeCheck = true
   private val bothPowerAndTimeCheck = true
-  //This is for equipment that have two measurements of energy e.g., preheat and idle
   private val multiplePowerCheck = true
   private val multipleTimeCheck = true
   private val bothMultiplePowerandTimeCheck = true
@@ -67,43 +65,31 @@ object AdditionalFunctions {
     {
       if (multiplePowerCheck == true)
       {
-        val electricityCostsSummer = electricityCostsSummerCalcMultiplePowerChange(powerValues)
-        val electricityCostsWinter = electricityCostsWinterCalcMultiplePowerChange(powerValues)
-        energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        energyCostSavings = electricityCostsCalcMultiplePowerChange(powerValues)
       }
       else if (multipleTimeCheck == true)
       {
         //the powervalues that are taken from the device should be for time change
-        val electricityCostsSummer = electricityCostsSummerCalcMultipleTimeChange(powerValues)
-        val electricityCostsWinter = electricityCostsWinterCalcMultipleTimeChange(powerValues)
-        energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        energyCostSavings = electricityCostsCalcMultipleTimeChange(powerValues)
       }
       else if (bothMultiplePowerandTimeCheck == true)
       {
         //the powervalues that are taken from the device should be for time change
-        val electricityCostsSummer = electricityCostsSummerCalcMultipleTimeChange(powerValues)
-        val electricityCostsWinter = electricityCostsWinterCalcMultipleTimeChange(powerValues)
-        energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        energyCostSavings = electricityCostsCalcMultipleTimeChange(powerValues)
       }
       else if (powerChangeCheck == true)
       {
-        val electricityCostsSummer = electricityCostsSummerCalcPowerChange(powerValue)
-        val electricityCostsWinter = electricityCostsWinterCalcPowerChange(powerValue)
-        energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        energyCostSavings = electricityCostsCalcPowerChange(powerValue)
       }
       else if (timeChangeCheck == true)
       {
         //the powervalues that are taken from the device should be for time change
-        val electricityCostsSummer = electricityCostsSummerCalcTimeChange(powerValue)
-        val electricityCostsWinter = electricityCostsWinterCalcTimeChange(powerValue)
-        energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        energyCostSavings = electricityCostsCalcTimeChange(powerValue)
       }
       else if (bothPowerAndTimeCheck == true)
       {
         //the powervalues that are taken from the device should be for time change
-        val electricityCostsSummer = electricityCostsSummerCalcTimeChange(powerValue)
-        val electricityCostsWinter = electricityCostsWinterCalcTimeChange(powerValue)
-        energyCostSavings = findTOUCostSavings(electricityCostsSummer, electricityCostsWinter)
+        energyCostSavings = electricityCostsCalcTimeChange(powerValue)
       }
     }
     else if (getRateSchedule === "NonTOU")
@@ -125,6 +111,7 @@ object AdditionalFunctions {
     val paybackPeriodMonths = calculatePaybackPeriodMonths(totalCostSaved, implementationCostsCalc)
     val paybackPeriodYears = calculatePaybackPeriodYears(totalCostSaved, implementationCostsCalc)
   }
+
   fun implementationCosts(materialsCostCall:Double, laborCostsCall:Double, incentivesCall:Double):Double {
     return ((materialsCostCall + laborCostsCall) - incentivesCall)
   }
@@ -142,20 +129,16 @@ object AdditionalFunctions {
     return (energyCostSavings / hoursOfOperationInput)
   }
   //this power value will be returned from the equations for each device; The equations used are checked within the if-statement in the main function
-  fun electricityCostsSummerCalcPowerChange(powerValue:Double):Double {
+  fun electricityCostsCalcPowerChange(powerValue:Double):Double {
     return (((preHoursOnPeakPricingInput * powerValue * peakPriceCall) + (preHoursOnPartPeakPricingInput * powerValue * partpeakPriceCall)
              + (preHoursOnOffPeakPricingInput * powerValue * offpeakPriceCall)))
   }
-  fun electricityCostsWinterCalcPowerChange(powerValue:Double):Double {
-    return ((preHoursOnPartPeakPricingInput * powerValue * partpeakPriceCall) + (preHoursOnOffPeakPricingInput * powerValue * offpeakPriceCall))
-  }
-  fun electricityCostsSummerCalcTimeChange(powerValue:Double):Double {
+
+  fun electricityCostsCalcTimeChange(powerValue:Double):Double {
     return ((((preHoursOnPeakPricingInput - postHoursOnPeakPricingInput) * powerValue * peakPriceCall) + (((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput)
                                                                                                            * powerValue * partpeakPriceCall)) + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValue * offpeakPriceCall)))
   }
-  fun electricityCostsWinterCalcTimeChange(powerValue:Double):Double {
-    return ((((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput) * powerValue * partpeakPriceCall) + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValue * offpeakPriceCall)))
-  }
+
   fun findTOUCostSavings(electricityCostsSummer:Double, electricityCostsWinter:Double):Double {
     return (electricityCostsSummer + electricityCostsWinter)
   }
@@ -175,7 +158,7 @@ object AdditionalFunctions {
   //This is the cost equation for televisions and other future appliances that function similarly
   //There will be an if-statement checking for these values
   //make for loops, fix bugs, and comment
-  fun electricityCostsSummerCalcMultiplePowerChange(powerValues:DoubleArray):Double {
+  fun electricityCostsCalcMultiplePowerChange(powerValues:DoubleArray):Double {
     val electricitySummerCostsMultiplePowerChangeCalc = 0.0
     for (i in powerValues.indices)
     {
@@ -186,16 +169,8 @@ object AdditionalFunctions {
     }
     return (electricitySummerCostsMultiplePowerChangeCalc)
   }
-  fun electricityCostsWinterCalcMultiplePowerChange(powerValues:DoubleArray):Double {
-    val electricityWinterCostsMultiplePowerChangeCalc = 0.0
-    for (i in powerValues.indices)
-    {
-      println(powerValues)
-      electricityWinterCostsMultiplePowerChangeCalc += (((preHoursOnPartPeakPricingInput * powerValues[i] * partpeakPriceCall) + (preHoursOnOffPeakPricingInput * powerValues[i] * offpeakPriceCall)))
-    }
-    return (electricityWinterCostsMultiplePowerChangeCalc)
-  }
-  fun electricityCostsSummerCalcMultipleTimeChange(powerValues:DoubleArray):Double {
+
+  fun electricityCostsCalcMultipleTimeChange(powerValues:DoubleArray):Double {
     val electricitySummerCostsMultipleTimeChangeCalc = 0.0
     for (i in powerValues.indices)
     {
@@ -204,14 +179,5 @@ object AdditionalFunctions {
 * powerValues[i] * partpeakPriceCall)) + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValues[i] * offpeakPriceCall)))
     }
     return (electricitySummerCostsMultipleTimeChangeCalc)
-  }
-  fun electricityCostsWinterCalcMultipleTimeChange(powerValues:DoubleArray):Double {
-    val electricityWinterCostsMultipleTimeChangeCalc = 0.0
-    println(powerValues)
-    for (i in powerValues.indices)
-    {
-      electricityWinterCostsMultipleTimeChangeCalc += ((((preHoursOnPartPeakPricingInput - postHoursOnPartPeakPricingInput) * powerValues[i] * partpeakPriceCall) + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValues[i] * offpeakPriceCall)))
-    }
-    return (electricityWinterCostsMultipleTimeChangeCalc)
   }
 }
