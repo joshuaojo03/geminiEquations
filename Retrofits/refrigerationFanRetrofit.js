@@ -1,28 +1,28 @@
 object RefrigerationFanRetrofit {
   /*Time Values*/
   //These will be manual inputs (for now)
-  private val preAnnualOperatingTimeInput = 10.0
-  private val postAnnualOperatingTimeInput = 5.0
+  private var preAnnualOperatingTimeInput = 10.0
+  private var postAnnualOperatingTimeInput = 5.0
   //These will be manual inputs (for now)
-  private val preFanRuntimeInput = 10.0
-  private val postFanRuntimeInput = 10.0
+  private var preFanRuntimeInput = 10.0
+  private var postFanRuntimeInput = 10.0
   //Power Values: The pre value will be a manual input (for now); the post value will be called from a database
-  private val preWattsInput = 10.0
-  private val postWattsCall = 5.0
+  private var preWattsInput = 10.0
+  private var postWattsCall = 5.0
   //Equipmemt Values: These will be manual inputs (for now)
-  private val fansPerEquipmentInput = 10.0
-  private val numberOfEquipmentInput = 10.0
+  private var fansPerEquipmentInput = 10.0
+  private var numberOfEquipmentInput = 10.0
   //EER: Will be a manual input (for now)
-  private val eerInput = 10.0
+  private var eerInput = 10.0
   //This value serves as a placeholder and will be changed throughout the class
-  private val energySavings:Double = 0.toDouble()
+  private var energySavings:Double = 0.toDouble()
   //This value should be passed in from the main class. If just the power is being changed, then the value is false.
   //If the time is being changed, or if both the time and power are being changed, this value should be true
-  private val timeChange = true
+  private var timeChange = true
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
-    val energyPowerChange = energyPowerChangeCalc()
-    val energyTimeChange = energyTimeChangeCalc()
+    var energyPowerChange = energyPowerChangeCalc()
+    var energyTimeChange = energyTimeChangeCalc()
     if (energyPowerChange != 0.0 && energyTimeChange == 0.0)
     {
       energySavings = energyPowerChange

@@ -1,28 +1,28 @@
 object PreRinseSprays {
   /*Time Values*/
   //Hourly: These values will be manually input (for now)
-  private val preTotalHoursUsedInput = 10.0
-  private val postTotalHoursUsedInput = 10.0
+  private var preTotalHoursUsedInput = 10.0
+  private var postTotalHoursUsedInput = 10.0
   //Calculated using above values
-  private val preDaysInOperationCalc = preTotalHoursUsedInput / 24
-  private val postDaysInOperationCalc = postTotalHoursUsedInput / 24
+  private var preDaysInOperationCalc = preTotalHoursUsedInput / 24
+  private var postDaysInOperationCalc = postTotalHoursUsedInput / 24
   //Flow: The pre value will be input, the post will be called from a database
-  private val preFlowRateInput = 10.0
-  private val postFlowRateCall = 5.0
+  private var preFlowRateInput = 10.0
+  private var postFlowRateCall = 5.0
   //Efficency: The pre value will be input, the post will be called
-  private val preEfficiencyInput = 10.0
-  private val postEfficiencyCall = 10.0
+  private var preEfficiencyInput = 10.0
+  private var postEfficiencyCall = 10.0
   //This value serves as a placeholder and will be changed throughout the class
-  private val energySavings:Double = 0.toDouble()
+  private var energySavings:Double = 0.toDouble()
   //this is a placeholder; there should be an option to select whether or not it is a gas appliance
-  private val gasAppliance = true
+  private var gasAppliance = true
   //This value should be passed in from the main class. If just the power is being changed, then the value is false.
   //If the time is being changed, or if both the time and power are being changed, this value should be true.
-  private val timeChange = true
+  private var timeChange = true
   //These values will be filled within the rest of the class, but serve as placeholders here.
   //They will be calculated depending on whether or not they are a gas or an electric appliance
-  private val energyPowerChange:Double = 0.toDouble()
-  private val energyTimeChange:Double = 0.toDouble()
+  private var energyPowerChange:Double = 0.toDouble()
+  private var energyTimeChange:Double = 0.toDouble()
   @JvmStatic fun main(args:Array<String>) {
     //check to see if it is a gas appliance
     if (gasAppliance == true)

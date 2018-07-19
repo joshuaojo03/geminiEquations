@@ -1,21 +1,21 @@
 object ACRetrofit {
   //Hourly Values: these are manual inputs (for now)
-  private val preHoursOnPerYearInput = 10.0
-  private val postHoursOnPerYearInput = 5.0
+  private var preHoursOnPerYearInput = 10.0
+  private var postHoursOnPerYearInput = 5.0
   //SEER Values: pre is input, post is called
-  private val preSEERInput = 10.0
-  private val postSEERCall = 10.0
+  private var preSEERInput = 10.0
+  private var postSEERCall = 10.0
   //Nominal capacity: will be a manual input
-  private val nominalCapacityInput = 10.0
+  private var nominalCapacityInput = 10.0
   //This value serves as a placeholder and will be changed throughout the class
-  private val energySavings:Double = 0.toDouble()
+  private var energySavings:Double = 0.toDouble()
   //This value should be passed in from the main class. If just the power is being changed, then the value is false.
   //If the time is being changed, or if both the time and power are being changed, this value should be true.
-  private val timeChange = true
+  private var timeChange = true
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
-    val energyPowerChange = energyPowerChangeCalc()
-    val energyTimeChange = energyTimeChangeCalc()
+    var energyPowerChange = energyPowerChangeCalc()
+    var energyTimeChange = energyTimeChangeCalc()
     if (energyPowerChange != 0.0 && energyTimeChange == 0.0)
     {
       energySavings = energyPowerChange

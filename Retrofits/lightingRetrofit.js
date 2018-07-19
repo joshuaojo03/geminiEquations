@@ -1,21 +1,21 @@
 object LightingRetrofit {
   //Hourly Values: these are manual inputs (for now)
-  private val preHoursOnPerYearInput = 10.0
-  private val postHoursOnPerYearInput = 5.0
+  private var preHoursOnPerYearInput = 10.0
+  private var postHoursOnPerYearInput = 5.0
   //Power Values: The pre value is input (for now); the post value is called
-  private val preWattsInput = 10.0
-  private val postWattsCall = 10.0
+  private var preWattsInput = 10.0
+  private var postWattsCall = 10.0
   //Number of Lamps: This is a manual input
-  private val numberOfLampsInput = 10.0
+  private var numberOfLampsInput = 10.0
   //This value serves as a placeholder and will be changed throughout the class
-  private val energySavings:Double = 0.toDouble()
+  private var energySavings:Double = 0.toDouble()
   //This value should be passed in from the main class. If just the power is being changed, then the value is false.
   //If the time is being changed, or if both the time and power are being changed, this value should be true.
-  private val timeChange = true
+  private var timeChange = true
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
-    val energyPowerChange = energyPowerChangeCalc()
-    val energyTimeChange = energyTimeChangeCalc()
+    var energyPowerChange = energyPowerChangeCalc()
+    var energyTimeChange = energyTimeChangeCalc()
     if (energyPowerChange != 0.0 && energyTimeChange == 0.0)
     {
       energySavings = energyPowerChange

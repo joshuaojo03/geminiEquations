@@ -1,24 +1,24 @@
 object HotFoodCabinets {
   //Hourly Values: these are manual inputs (for now)
-  private val preRunHoursInput = 10.0
-  private val postRunHoursInput = 10.0
+  private var preRunHoursInput = 10.0
+  private var postRunHoursInput = 10.0
   //Energy Values: The pre value is input (for now) but the post value is called from a database/excel sheet
-  private val preIdleEnergyRateInput = 10.0
-  private val postIdleEnergyRateInput = 10.0
+  private var preIdleEnergyRateInput = 10.0
+  private var postIdleEnergyRateInput = 10.0
   //Volume: This is a manual input for now
-  private val cabinetVolumeInput = 10.0
+  private var cabinetVolumeInput = 10.0
   //Power: These values are calculated from the earlier values
-  private val prePowerUseCalc = (cabinetVolumeInput * preIdleEnergyRateInput / 1000)
-  private val postPowerUseCalc = (cabinetVolumeInput * postIdleEnergyRateInput / 1000)
+  private var prePowerUseCalc = (cabinetVolumeInput * preIdleEnergyRateInput / 1000)
+  private var postPowerUseCalc = (cabinetVolumeInput * postIdleEnergyRateInput / 1000)
   //This value serves as a placeholder and will be changed throughout the class
-  private val energySavings:Double = 0.toDouble()
+  private var energySavings:Double = 0.toDouble()
   //This value should be passed in from the main class. If just the power is being changed, then the value is false.
   //If the time is being changed, or if both the time and power are being changed, this value should be true.
-  private val timeChange = true
+  private var timeChange = true
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
-    val energyPowerChange = energyPowerChangeCalc()
-    val energyTimeChange = energyTimeChangeCalc()
+    var energyPowerChange = energyPowerChangeCalc()
+    var energyTimeChange = energyTimeChangeCalc()
     if (energyPowerChange != 0.0 && energyTimeChange == 0.0)
     {
       energySavings = energyPowerChange

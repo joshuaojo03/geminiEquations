@@ -1,49 +1,49 @@
 object CascadingEnegySavingsLights {
 
   //manual inputs
-  private val lampsPerFixture = 1
-  private val numFixtures = 1
+  private var lampsPerFixture = 1
+  private var numFixtures = 1
 
   //manual inputs?
-  private val percentHoursReduced = 1.0
-  private val lifeHours = 1
-  private val cooling = 1.0
+  private var percentHoursReduced = 1.0
+  private var lifeHours = 1
+  private var cooling = 1.0
 
 //Energy: pre will be a manual input, post will be called from a database
-  private val currentEnergyUseInput = 1.0
-  private val postEnergyUseCall = 0.5
+  private var currentEnergyUseInput = 1.0
+  private var postEnergyUseCall = 0.5
 
   //SEER: This will be a manual input (for now)
-  private val SEERInput = 10
+  private var SEERInput = 10
 
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
-    val savings = 5
-    val lampType = "Halogen"
+    var savings = 5
+    var lampType = "Halogen"
     println("lampType " + lampType)
     println("lampsPerFixture " + lampsPerFixture)
     selectLamp(lampType)
     println("lifehours " + lifeHours)
-    val maintenanceSavings = maintenanceSavingsCalculation()
-    val coolingSavings = coolingSavingsCalculation()
-    val energySavings = energySavingsCalculation()
-    val savingsCascade = maintenanceSavings + coolingSavings + energySavings
+    var maintenanceSavings = maintenanceSavingsCalculation()
+    var coolingSavings = coolingSavingsCalculation()
+    var energySavings = energySavingsCalculation()
+    var savingsCascade = maintenanceSavings + coolingSavings + energySavings
     println("savings post " + savingsCascade)
   }
 
   //The remaining functions will be used as values within the additional functions class
   fun maintenanceSavingsCalculation():Double {
-    val savings = (lampsPerFixture.toDouble() * numFixtures.toDouble() * 3.0 * percentHoursReduced * (8760 / lifeHours).toDouble())
+    var savings = (lampsPerFixture.toDouble() * numFixtures.toDouble() * 3.0 * percentHoursReduced * (8760 / lifeHours).toDouble())
     return savings
   }
 
   fun coolingSavingsCalculation():Double {
-    val savings = currentEnergyUseInput * cooling * SEERInput.toDouble()
+    var savings = currentEnergyUseInput * cooling * SEERInput.toDouble()
     return savings
   }
 
   fun energySavingsCalculation():Double {
-    val savings = currentEnergyUseInput - postEnergyUseCall
+    var savings = currentEnergyUseInput - postEnergyUseCall
     return savings
   }
 

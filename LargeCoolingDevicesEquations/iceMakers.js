@@ -1,22 +1,22 @@
 object IceMakers {
   //Hourly Values: these are manual inputs (for now)
-  private val preRunHoursInput = 10.0
-  private val postRunHoursInput = 5.0
+  private var preRunHoursInput = 10.0
+  private var postRunHoursInput = 5.0
   //Energy Values: The pre value is input (for now) but the post value is called from a database/excel sheet
-  private val preEnergyUseRateInput = 10.0
-  private val postEnergyUseRateCall = 5.0
+  private var preEnergyUseRateInput = 10.0
+  private var postEnergyUseRateCall = 5.0
   //Ice Harvest: The pre value is input (for now) but the post value is called from a database/excel sheet
-  private val preIceHarvestRateInput = 10.0
-  private val postIceHarvestRateCall = 10.0
+  private var preIceHarvestRateInput = 10.0
+  private var postIceHarvestRateCall = 10.0
   //This value serves as a placeholder and will be changed throughout the class
-  private val energySavings:Double = 0.toDouble()
+  private var energySavings:Double = 0.toDouble()
   //This value should be passed in from the main class. If just the power is being changed, then the value is false.
   //If the time is being changed, or if both the time and power are being changed, this value should be true.
-  private val timeChange = true
+  private var timeChange = true
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
-    val energyPowerChange = energyPowerChangeCalc()
-    val energyTimeChange = energyTimeChangeCalc()
+    var energyPowerChange = energyPowerChangeCalc()
+    var energyTimeChange = energyTimeChangeCalc()
     if (energyPowerChange != 0.0 && energyTimeChange == 0.0)
     {
       energySavings = energyPowerChange

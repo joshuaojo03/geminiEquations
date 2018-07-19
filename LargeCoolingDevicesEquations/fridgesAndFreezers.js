@@ -1,22 +1,22 @@
 object FridgesAndFreezers {
   //Hourly values: These will be manually input for now
-  private val preRunHoursInput = 10.0
-  private val postRunHoursInput = 5.0
+  private var preRunHoursInput = 10.0
+  private var postRunHoursInput = 5.0
   //Energy Use Values: The pre-energy use is input (for now), the post energy use is called
-  private val preHourlyEnergyUseInput = 10.0
-  private val postHourlyEnergyUseCall = 5.0
+  private var preHourlyEnergyUseInput = 10.0
+  private var postHourlyEnergyUseCall = 5.0
   //These values are using the above values.
-  private val preDailyEnergyUseCalc = preHourlyEnergyUseInput / 24
-  private val postDailyEnergyUseCalc = postHourlyEnergyUseCall / 24
+  private var preDailyEnergyUseCalc = preHourlyEnergyUseInput / 24
+  private var postDailyEnergyUseCalc = postHourlyEnergyUseCall / 24
   //this serves as a placeholder. This class should reassign the value.
-  private val energySavings:Double = 0.toDouble()
+  private var energySavings:Double = 0.toDouble()
   //this value should be passed in from the main class. If just the power is being changed, then the value is false.
   //If the time is being changed, or if both the time and power are being changed, this value should be true.
-  private val timeChange = true
+  private var timeChange = true
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
-    val energyPowerChange = energyPowerChangeCalc()
-    val energyTimeChange = energyTimeChangeCalc()
+    var energyPowerChange = energyPowerChangeCalc()
+    var energyTimeChange = energyTimeChangeCalc()
     if (energyPowerChange != 0.0 && energyTimeChange == 0.0)
     {
       energySavings = energyPowerChange

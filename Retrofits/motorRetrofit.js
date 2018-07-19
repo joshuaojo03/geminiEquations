@@ -1,24 +1,24 @@
 object MotorRetrofit {
   //Time Values: these are manual inputs (for now)
-  private val preAnnualOperatingTimeInput = 10.0
-  private val postAnnualOperatingTimeInput = 5.0
+  private var preAnnualOperatingTimeInput = 10.0
+  private var postAnnualOperatingTimeInput = 5.0
   //Efficiency: These will both be called from a database/excel sheet
-  private val preMotorEfficiencyCall = 10.0
-  private val postMotorEfficiencyCall = 10.0
+  private var preMotorEfficiencyCall = 10.0
+  private var postMotorEfficiencyCall = 10.0
   //Power: This is a manual input
-  private val motorPowerInput = 10.0
+  private var motorPowerInput = 10.0
   //Load: These will be called values
-  private val averageMotorLoadCall = 10.0
-  private val ratedMotorLoadCall = 10.0
+  private var averageMotorLoadCall = 10.0
+  private var ratedMotorLoadCall = 10.0
   //This value serves as a placeholder and will be changed throughout the class
-  private val energySavings:Double = 0.toDouble()
+  private var energySavings:Double = 0.toDouble()
   //This value should be passed in from the main class. If just the power is being changed, then the value is false.
   //If the time is being changed, or if both the time and power are being changed, this value should be true
-  private val timeChange = true
+  private var timeChange = true
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
-    val energyPowerChange = energyPowerChangeCalc()
-    val energyTimeChange = energyTimeChangeCalc()
+    var energyPowerChange = energyPowerChangeCalc()
+    var energyTimeChange = energyTimeChangeCalc()
     if (energyPowerChange != 0.0 && energyTimeChange == 0.0)
     {
       energySavings = energyPowerChange

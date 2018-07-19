@@ -1,19 +1,19 @@
 object Boilers {
   //Time value: These values are input (for now)
-  private val preRuntimeInput = 10.0
-  private val postRuntimeInput = 5.0
+  private var preRuntimeInput = 10.0
+  private var postRuntimeInput = 5.0
   //Power Values: The pre value is input (for now); the post value is called
-  private val prePowerInput = 10.0
-  private val postPowerCall = 10.0
+  private var prePowerInput = 10.0
+  private var postPowerCall = 10.0
   //this serves as a placeholder. This class should reassign the value.
-  private val energySavings:Double = 0.toDouble()
+  private var energySavings:Double = 0.toDouble()
   //This value should be passed in from the main class. If just the power is being changed, then the value is false.
   //If the time is being changed, or if both the time and power are being changed, this value should be true.
-  private val timeChange = true
+  private var timeChange = true
   @JvmStatic fun main(args:Array<String>) {
     println("Hello World")
-    val energyPowerChange = energyPowerChangeCalc()
-    val energyTimeChange = energyTimeChangeCalc()
+    var energyPowerChange = energyPowerChangeCalc()
+    var energyTimeChange = energyTimeChangeCalc()
     if (energyPowerChange != 0.0 && energyTimeChange == 0.0)
     {
       energySavings = energyPowerChange
