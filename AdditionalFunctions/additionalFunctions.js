@@ -6,32 +6,35 @@ object AdditionalFunctions {
   //I need to double check the maintenance costs/equipment costs, and finish writing the energy equations for the devices; need to check if the device equations
   //calculate the change in energy usage or if they calculate the individual energy usage
   //inputs for time in the equations; These values are taken from a database that has the prices within them; Here they are placeholders
+  //PRE = Current | POST = Future
   private val preHoursOnPeakPricingInput = 10.0
   private val preHoursOnPartPeakPricingInput = 10.0
   private val preHoursOnOffPeakPricingInput = 10.0
   private val postHoursOnPeakPricingInput = 10.0
   private val postHoursOnPartPeakPricingInput = 10.0
   private val postHoursOnOffPeakPricingInput = 10.0
-  //inputs for pricing in the equations; These values are taken from a database that has the prices within them; Here they are placeholders
+  //inputs for pricing in the equations; These values are taken from the utility database; Here they are placeholders
   private val peakPriceCall = 10.0
   private val partpeakPriceCall = 10.0
   private val offpeakPriceCall = 10.0
   private val winterRateInput = 10.0
   private val summerRateInput = 10.0
-  //These values are called from the excel database
+  //This value is called from the energy efficiency database
   private val materialsCostCall = 100.0
+  //This value is called from the install cost database
   private val laborCostsCall = 100.0
   //calculated from other class; these placeholders will be calculations from other classes. They are placeholders now
   //because I am not super comfortable creating different classes and calling these functions from different classes.
+  //they are from the cascading calculations
   private val implementationCostsCalc = 100.0
   private val totalEnergyCostSavingsPlaceholderYearsCalc = 2.0
   private val maintenanceCostSavingsCalc = 8.0
   private val otherEquipmentSavingsCalc = 9.0
-  //This value is called from a database and is dependent on the specific device
+  //This value is called from the energy efficiency database and is dependent on the specific device
   private val incentivesCall = 10.0
-  //This value is input manually
+  //This value is the annual hours of operation (hrs/yr) calculated from business operation inputs
   private val hoursOfOperationInput = 10.0
-  //This is a call from a database
+  //This value is an average calculated using business hours and utility pricing. It is a pricing value ($/kWh)
   private val blendedRate = 10.0
   //This value determines what the type of rate schedule to use; Right now it is a string check, but a more sophisticated check could be required
   private val getRateSchedule = "TOU"
@@ -45,12 +48,13 @@ object AdditionalFunctions {
   private val powerChangeCheck = true
   private val timeChangeCheck = true
   private val bothPowerAndTimeCheck = true
+  //These values are for equipments with special requirements e.g., for ovens where preheat and idle need to be accounted for
   private val multiplePowerCheck = true
   private val multipleTimeCheck = true
   private val bothMultiplePowerandTimeCheck = true
   //You have to get the rate schedule and determine whether or not it is a TOU rate schedule or a non-TOU rate schedule
-  //The powerValue is returned from every device; for the power change and bothPowerAndTime change, the power value represents
-  // the change in power. For the time change, the powerValue represents the prePower value
+  //The powerValue is returned from every device; for the power change and bothPowerAndTime change measures, the power value represents
+  // the change in power. For the time change measure, the powerValue represents the prePower value
   @JvmStatic fun main(args:Array<String>) {
     //This array is essentially a placeholder; The array is called from the specific device questions
     val powerValues = DoubleArray(3)
@@ -74,7 +78,7 @@ object AdditionalFunctions {
       }
       else if (bothMultiplePowerandTimeCheck == true)
       {
-        //the powervalues that are taken from the device should be for time change
+        //the powervalues that are taken from the device should be for power change
         energyCostSavings = electricityCostsCalcMultipleTimeChange(powerValues)
       }
       else if (powerChangeCheck == true)
@@ -88,7 +92,7 @@ object AdditionalFunctions {
       }
       else if (bothPowerAndTimeCheck == true)
       {
-        //the powervalues that are taken from the device should be for time change
+        //the powervalues that are taken from the device should be for power change
         energyCostSavings = electricityCostsCalcTimeChange(powerValue)
       }
     }
@@ -106,13 +110,13 @@ object AdditionalFunctions {
       gasCostsSavings = 0.0
     }
     val demandCostSavings = demandCostSavingsYearCalc(energyCostSavings, hoursOfOperationInput)
-    val implementationCosts = implementationCosts(materialsCostCall, laborCostsCall, incentivesCall)
+    val implementationCosts = implementationCostsCalc(materialsCostCall, laborCostsCall, incentivesCall)
     val totalCostSaved = totalCostSavedCalc(energyCostSavings, maintenanceCostSavingsCalc, otherEquipmentSavingsCalc, demandCostSavings, gasCostsSavings)
-    val paybackPeriodMonths = calculatePaybackPeriodMonths(totalCostSaved, implementationCostsCalc)
-    val paybackPeriodYears = calculatePaybackPeriodYears(totalCostSaved, implementationCostsCalc)
+    val paybackPeriodMonths = calculatePaybackPeriodMonths(totalCostSaved, implementationCosts)
+    val paybackPeriodYears = calculatePaybackPeriodYears(totalCostSaved, implementationCosts)
   }
 
-  fun implementationCosts(materialsCostCall:Double, laborCostsCall:Double, incentivesCall:Double):Double {
+  fun implementationCostsCalc(materialsCostCall:Double, laborCostsCall:Double, incentivesCall:Double):Double {
     return ((materialsCostCall + laborCostsCall) - incentivesCall)
   }
   fun calculatePaybackPeriodMonths(totalCostSaved:Double, implementationCosts:Double):Double {
