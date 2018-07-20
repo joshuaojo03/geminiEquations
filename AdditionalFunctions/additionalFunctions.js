@@ -68,7 +68,7 @@ object AdditionalFunctions {
 
   //This value is an average calculated using an average of secondary demand summer and winter costs. It is a pricing value ($/kW)
 
-  private var blendedDemandRateCall = 10.0
+  private var blendedDemandRate = 10.0
 
   //This value determines what the type of rate schedule to use; Right now it is a string check, but a more sophisticated check could be required
 
@@ -250,7 +250,7 @@ object AdditionalFunctions {
 
   fun demandCostSavingsYearCalc(power:Double):Double {
 
-    return ((blendedDemandRateCall * 4) * power)
+    return ((blendedDemandRate * power) * 12)
 
   }
 
@@ -271,17 +271,9 @@ object AdditionalFunctions {
                                                                                                            * powerValue * partpeakPriceCall)) + ((preHoursOnOffPeakPricingInput - postHoursOnOffPeakPricingInput) * powerValue * offpeakPriceCall)))
   }
 
-
-
-  fun findTOUCostSavings(electricityCostsSummer:Double, electricityCostsWinter:Double):Double {
-
-    return (electricityCostsSummer + electricityCostsWinter)
-
-  }
-
   fun findNonTOUCostSavings(energyUse:Double):Double {
 
-    return (((energyUse / 2) * summerRateInput) + ((energyUse / 2) * winterRateInput))
+    return (energyUse * blendedEnergyRate)
 
   }
 
