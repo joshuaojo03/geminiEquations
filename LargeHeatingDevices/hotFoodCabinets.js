@@ -4,12 +4,12 @@ object HotFoodCabinets {
   private var postRunHoursInput = 10.0
   //Energy Values: The pre value is input (for now) but the post value is called from a database/excel sheet
   private var preIdleEnergyRateInput = 10.0
-  private var postIdleEnergyRateInput = 10.0
+  private var postIdleEnergyRateCall = 10.0
   //Volume: This is a manual input for now
   private var cabinetVolumeInput = 10.0
   //Power: These values are calculated from the earlier values
   private var prePowerUseCalc = (cabinetVolumeInput * preIdleEnergyRateInput / 1000)
-  private var postPowerUseCalc = (cabinetVolumeInput * postIdleEnergyRateInput / 1000)
+  private var postPowerUseCalc = (cabinetVolumeInput * postIdleEnergyRateCall / 1000)
   //This value serves as a placeholder and will be changed throughout the class
   private var energySavings:Double = 0.toDouble()
   //This value should be passed in from the main class. If just the power is being changed, then the value is false.
