@@ -6,8 +6,8 @@ object FridgesAndFreezers {
   private var preHourlyEnergyUseInput = 10.0
   private var postHourlyEnergyUseCall = 5.0
   //These values are using the above values.
-  private var preDailyEnergyUseCalc = preHourlyEnergyUseInput / 24
-  private var postDailyEnergyUseCalc = postHourlyEnergyUseCall / 24
+  private var prePowerCalc = preHourlyEnergyUseInput / 24
+  private var postPowerCalc = postHourlyEnergyUseCall / 24
   //this serves as a placeholder. This class should reassign the value.
   private var energySavings:Double = 0.toDouble()
   //this value should be passed in from the main class. If just the power is being changed, then the value is false.
@@ -42,24 +42,24 @@ object FridgesAndFreezers {
   fun powerValueCalc():Double {
     if (timeChange == false)
     {
-      return (preDailyEnergyUseCalc - postDailyEnergyUseCalc)
+      return (prePowerUseCalc - postPowerCalc)
     }
     else
     {
-      return (preDailyEnergyUseCalc)
+      return (prePowerCalc)
     }
   }
   //these equations are used to calculate the savings in energy
   //just the change in power;
   fun energyPowerChangeCalc():Double {
-    return (preRunHoursInput * (preDailyEnergyUseCalc - postDailyEnergyUseCalc))
+    return (preRunHoursInput * (prePowerCalc - postPowerCalc))
   }
   //just the change in time;
   fun energyTimeChangeCalc():Double {
-    return ((preRunHoursInput - postRunHoursInput) * preDailyEnergyUseCalc)
+    return ((preRunHoursInput - postRunHoursInput) * prePowerCalc)
   }
   //If both the power and time are changed;
   fun energyCalcTotal(energyCalcPowerChange:Double, energyCalcTimeChange:Double):Double {
-    return ((preRunHoursInput - postRunHoursInput) * (preDailyEnergyUseCalc - postDailyEnergyUseCalc))
+    return ((preRunHoursInput - postRunHoursInput) * (prePowerCalc - postPowerCalc))
   }
 }
