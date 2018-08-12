@@ -107,12 +107,15 @@ object Ovens {
   
   //these equations are used to calculate the savings in energy; Different equations depending on whether they are gas or electric
   //Already checked within if statement which equations to use under what circumstances
+  //The preheatenergy input is divided by four because it only take 15mins (1/4 of an hour) to complete
   fun energyPowerChangeGasCalc():Double {
-    return ((((((prePreheatEnergyInput - postPreheatEnergyCall) / 4 * preDaysInOperationCalc) + (preRunHoursInput * (preIdleEnergyRateInput - postIdleEnergyRateCall)) / 3.412)) + (preRunHoursInput * (preFanEnergyRateInput - postFanEnergyRateCall))))
+    return (((prePreheatEnergyInput - postPreheatEnergyCall) / 4 * preDaysInOperationCalc) + preRunHoursInput * (((preIdleEnergyRate1Input + preIdleEnergyRate2Input) / 2) - ((postIdleEnergyRate1Call + postIdleEnergyRate2Call) / 2)) + (preRunHoursInput * (preFanEnergyRateInput - postFanEnergyRateCall)))
   }
   fun energyPowerChangeElectricCalc():Double {
-    return ((((prePreheatEnergyInput - postPreheatEnergyCall) / 4 * preDaysInOperationCalc) + ((preRunHoursInput * ((preIdleEnergyRateInput - postIdleEnergyRateCall) + (preFanEnergyRateInput - postFanEnergyRateCall))))))
+    return (((prePreheatEnergyInput - postPreheatEnergyCall) / 4 * preDaysInOperationCalc) + preRunHoursInput * (((preIdleEnergyRate1Input + preIdleEnergyRate2Input) / 2) - ((postIdleEnergyRate1Call + postIdleEnergyRate2Call) / 2)) + ((preRunHoursInput * (preFanEnergyRateInput - postFanEnergyRateCall)) * 3412))
   }
+  //Gas Energy Equation: return (((prePreheatEnergyInput) / 4 * preDaysInOperationCalc) + preRunHoursInput * ((preIdleEnergyRate1Input + preIdleEnergyRate2Input) / 2) + ((preRunHoursInput * (preFanEnergyRateInput - postFanEnergyRateCall)) * 3412))
+  //Electricity Energy Equation: return (((prePreheatEnergyInput) / 4 * preDaysInOperationCalc) + preRunHoursInput * ((preIdleEnergyRate1Input + preIdleEnergyRate2Input) / 2) + (preRunHoursInput * (preFanEnergyRateInput - postFanEnergyRateCall))) 
   fun energyTimeChangeGasCalc():Double {
     return (((((((prePreheatEnergyInput / 4 * (preDaysInOperationCalc - postDaysInOperationCalc)) + ((preRunHoursInput - postRunHoursInput) * preIdleEnergyRateInput))) / 3.412)) + ((preRunHoursInput - postRunHoursInput) * preFanEnergyRateInput)))
   }
