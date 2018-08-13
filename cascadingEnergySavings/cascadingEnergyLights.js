@@ -33,7 +33,7 @@ object CascadingEnegySavingsLights {
 
   //The remaining functions will be used as values within the additional functions class
   fun maintenanceSavingsCalculation():Double {
-    var savings = (lampsPerFixture.toDouble() * numFixtures.toDouble() * 3.0 * (usagespecific.yearly() / lifeHours).toDouble())
+    var savings = (lampsPerFixture.toDouble() * numFixtures.toDouble() * 3.0 * percentHoursReduced * (8760 / lifeHours).toDouble())
     return savings
   }
 
@@ -51,24 +51,28 @@ object CascadingEnegySavingsLights {
     if (lampType == "Halogen")
     {
       lifeHours = 5000
+      percentHoursReduced = 0.75
       cooling = 0.95
       println("Halogen")
     }
     else if (lampType == "CFL")
     {
       lifeHours = 15000
+      percentHoursReduced = 0.25
       cooling = 0.8
       println("CFL")
     }
     else if (lampType == "Linear Fluorescent")
     {
       lifeHours = 10000
+      percentHoursReduced = 0.85
       cooling = 0.85
       println("Linear Fluorescent")
     }
     else if (lampType == "Incandescent")
     {
       lifeHours = 2500
+      percentHoursReduced = 0.9
       cooling = 0.9
       println("Incandescent")
     }
