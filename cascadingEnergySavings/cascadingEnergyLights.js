@@ -33,7 +33,7 @@ object CascadingEnegySavingsLights {
 
   //The remaining functions will be used as values within the additional functions class
   fun maintenanceSavingsCalculation():Double {
-    var savings = (lampsPerFixture.toDouble() * numFixtures.toDouble() * 3.0 * percentHoursReduced * (8760 / lifeHours).toDouble())
+    var savings = (lampsPerFixture.toDouble() * numFixtures.toDouble() * 3.0 * (usagespecific.yearly() / lifeHours).toDouble())
     return savings
   }
 
@@ -43,7 +43,7 @@ object CascadingEnegySavingsLights {
   }
 
   fun energySavingsCalculation():Double {
-    var savings = currentEnergyUseInput - postEnergyUseCall
+    var savings = currentEnergyUseInput * percentHoursReduced
     return savings
   }
 
